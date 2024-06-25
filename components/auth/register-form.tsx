@@ -15,13 +15,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 
-import { LoginSchema, LoginSchemaType } from "@/schemas/indes";
+import { RegisterSchema, RegisterSchemaType } from "@/schemas/indes";
 
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
-import { login } from "@/actions/login";
+import { register } from "@/actions/register";
 
-export const LoginForm = () => {
+export const RegisterForm = () => {
   // use state hook
   const [error, setError] = useState<string | undefined>("");
   const [success, setSuccess] = useState<string | undefined>("");
@@ -30,23 +30,24 @@ export const LoginForm = () => {
   const [isPending, startTransition] = useTransition();
 
   // defining shadcn form
-  const form = useForm<LoginSchemaType>({
-    resolver: zodResolver(LoginSchema),
+  const form = useForm<RegisterSchemaType>({
+    resolver: zodResolver(RegisterSchema),
     defaultValues: {
       email: "",
       password: "",
+      name: "",
     },
   });
 
   // creating a form submission handler
-  function onSubmit(values: LoginSchemaType) {
+  function onSubmit(values: RegisterSchemaType) {
     // setting states before running serveraction
     setError("");
     setSuccess("");
 
     // here passing login server action to startTransition in a callback
     startTransition(async () => {
-      const response = await login(values);
+      const response = await register(values);
       setSuccess(response.success);
       setError(response.error);
 
@@ -55,9 +56,9 @@ export const LoginForm = () => {
   }
   return (
     <CardWrapper
-      headerLabel="Welcome back"
-      backButtonLabel="Don't have an account?"
-      backButtonHref="/auth/register"
+      headerLabel="Create an accound"
+      backButtonLabel="Already have an account?"
+      backButtonHref="/auth/login"
       showSocial
     >
       <Form {...form}>
@@ -92,6 +93,24 @@ export const LoginForm = () => {
                       placeholder="******"
                       {...field}
                       type="password"
+                      disabled={isPending}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input
+                      placeholder="John Doe"
+                      {...field}
+                      type="text"
                       disabled={isPending}
                     />
                   </FormControl>

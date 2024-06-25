@@ -14,3 +14,17 @@ export const LoginSchema = z.object({
   }),
 });
 export type LoginSchemaType = z.infer<typeof LoginSchema>;
+
+// REGISTER SCHEMA
+export const RegisterSchema = z.object({
+  email: z.string().email({
+    message: "Email is required.",
+  }),
+  password: z.string().min(8, {
+    message: "Password must contain min 8 characters.",
+  }),
+  name: z.string().min(1, {
+    message: "Name is required",
+  }),
+});
+export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
