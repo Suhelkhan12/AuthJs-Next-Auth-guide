@@ -1,5 +1,5 @@
 "use client";
-import { useState, useTransition } from "react";
+import { useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -22,10 +22,6 @@ import { FormSuccess } from "../form-success";
 import { login } from "@/actions/login";
 
 export const LoginForm = () => {
-  // use state hook
-  const [error, setError] = useState<string | undefined>("");
-  const [success, setSuccess] = useState<string | undefined>("");
-
   // use transition hooks
   const [isPending, startTransition] = useTransition();
 
@@ -40,16 +36,9 @@ export const LoginForm = () => {
 
   // creating a form submission handler
   function onSubmit(values: LoginSchemaType) {
-    // setting states before running serveraction
-    setError("");
-    setSuccess("");
-
     // here passing login server action to startTransition in a callback
     startTransition(async () => {
-      const response = await login(values);
-      setSuccess(response.success);
-      setError(response.error);
-
+      await login(values);
       form.reset();
     });
   }
@@ -100,8 +89,8 @@ export const LoginForm = () => {
               )}
             />
           </div>
-          <FormError message={error} />
-          <FormSuccess message={success} />
+          <FormError message="" />
+          <FormSuccess message="" />
           <Button type="submit" className="w-full" disabled={isPending}>
             Login
           </Button>
