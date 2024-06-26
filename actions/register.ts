@@ -6,6 +6,8 @@ import { wait } from "./wait";
 import { prisma } from "@/lib/db";
 import bcrypt from "bcrypt";
 
+import { getUserByEmail } from "@/data/user";
+
 export const register = async (values: RegisterSchemaType) => {
   // waitng for 2 second
   await wait(2000);
@@ -21,11 +23,7 @@ export const register = async (values: RegisterSchemaType) => {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // checking unique email :- it will give us the user with email for user trying to use same email to register
-  const existingUser = await prisma.user.findUnique({
-    where: {
-      email,
-    },
-  });
+  const existingUser = await getUserByEmail(email);
 
   if (existingUser) {
     return { error: "Email already in use!" };
