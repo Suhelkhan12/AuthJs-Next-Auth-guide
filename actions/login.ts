@@ -1,9 +1,7 @@
 "use server";
 
 import { LoginSchema, LoginSchemaType } from "@/schemas/indes";
-
-const wait = async (time: number) =>
-  new Promise((resolve) => setTimeout(resolve, time));
+import { wait } from "./wait";
 
 export const login = async (values: LoginSchemaType) => {
   // waiting for 2 seconds

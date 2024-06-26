@@ -1,9 +1,7 @@
 "use server";
 
 import { RegisterSchema, RegisterSchemaType } from "@/schemas/indes";
-
-const wait = async (time: number) =>
-  new Promise((resolve) => setTimeout(resolve, time));
+import { wait } from "./wait";
 
 export const register = async (values: RegisterSchemaType) => {
   // waitng for 2 second
