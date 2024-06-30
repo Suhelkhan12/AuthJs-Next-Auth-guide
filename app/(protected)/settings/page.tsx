@@ -1,4 +1,5 @@
-import { auth } from "@/auth";
+import { auth, signOut } from "@/auth";
+import { Button } from "@/components/ui/button";
 
 const page = async () => {
   const session = await auth();
@@ -7,6 +8,14 @@ const page = async () => {
     <div>
       Settings page
       <pre>{JSON.stringify(session)}</pre>
+      <form
+        action={async () => {
+          "use server";
+          await signOut();
+        }}
+      >
+        <Button type="submit">Sign out</Button>
+      </form>
     </div>
   );
 };

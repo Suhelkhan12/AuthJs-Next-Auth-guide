@@ -1,5 +1,5 @@
 "use client";
-import { useTransition } from "react";
+import { useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -18,12 +18,12 @@ import { Input } from "@/components/ui/input";
 import { LoginSchema, LoginSchemaType } from "@/schemas/indes";
 
 import { FormError } from "../form-error";
-import { FormSuccess } from "../form-success";
 import { login } from "@/actions/login";
 
 export const LoginForm = () => {
   // use transition hooks
   const [isPending, startTransition] = useTransition();
+  const [error, setError] = useState<string | undefined>("");
 
   // defining shadcn form
   const form = useForm<LoginSchemaType>({
@@ -36,10 +36,13 @@ export const LoginForm = () => {
 
   // creating a form submission handler
   function onSubmit(values: LoginSchemaType) {
+    setError("");
     // here passing login server action to startTransition in a callback
     startTransition(async () => {
-      await login(values);
+      const response = await login(values);
+      setError(response?.error);
       form.reset();
+      console.log(error);
     });
   }
   return (
@@ -89,8 +92,7 @@ export const LoginForm = () => {
               )}
             />
           </div>
-          <FormError message="" />
-          <FormSuccess message="" />
+          <FormError message={error} />
           <Button type="submit" className="w-full" disabled={isPending}>
             Login
           </Button>

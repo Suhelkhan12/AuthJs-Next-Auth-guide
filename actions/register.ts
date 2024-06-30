@@ -4,7 +4,7 @@ import { RegisterSchema, RegisterSchemaType } from "@/schemas/indes";
 import { wait } from "./wait";
 
 import { prisma } from "@/lib/db";
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 
 import { getUserByEmail } from "@/data/user";
 
