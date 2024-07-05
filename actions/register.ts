@@ -1,7 +1,6 @@
 "use server";
 
 import { RegisterSchema, RegisterSchemaType } from "@/schemas/indes";
-import { wait } from "./wait";
 
 import { prisma } from "@/lib/db";
 import bcrypt from "bcryptjs";
@@ -9,9 +8,6 @@ import bcrypt from "bcryptjs";
 import { getUserByEmail } from "@/data/user";
 
 export const register = async (values: RegisterSchemaType) => {
-  // waitng for 2 second
-  await wait(2000);
-
   const isValidatedFields = RegisterSchema.safeParse(values);
 
   if (!isValidatedFields.success) {

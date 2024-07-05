@@ -20,6 +20,7 @@ import { RegisterSchema, RegisterSchemaType } from "@/schemas/indes";
 import { FormError } from "../form-error";
 import { FormSuccess } from "../form-success";
 import { register } from "@/actions/register";
+import Spinner from "../icons/Spinner";
 
 export const RegisterForm = () => {
   // use state hook
@@ -122,7 +123,7 @@ export const RegisterForm = () => {
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
-            Create an account
+            {isPending ? <Spinner /> : "Create an account"}
           </Button>
         </form>
       </Form>

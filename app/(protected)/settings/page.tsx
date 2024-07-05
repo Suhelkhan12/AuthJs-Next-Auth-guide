@@ -1,8 +1,10 @@
+import { wait } from "@/actions/wait";
 import { auth, signOut } from "@/auth";
 import { Button } from "@/components/ui/button";
 
 const page = async () => {
   const session = await auth();
+
   if (!session) return <div>No session found</div>;
   return (
     <div>
@@ -11,6 +13,7 @@ const page = async () => {
       <form
         action={async () => {
           "use server";
+          await wait(1500);
           await signOut();
         }}
       >

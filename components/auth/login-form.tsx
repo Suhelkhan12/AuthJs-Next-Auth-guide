@@ -19,6 +19,7 @@ import { LoginSchema, LoginSchemaType } from "@/schemas/indes";
 
 import { FormError } from "../form-error";
 import { login } from "@/actions/login";
+import Spinner from "../icons/Spinner";
 
 export const LoginForm = () => {
   // use transition hooks
@@ -42,7 +43,6 @@ export const LoginForm = () => {
       const response = await login(values);
       setError(response?.error);
       form.reset();
-      console.log(error);
     });
   }
   return (
@@ -94,7 +94,7 @@ export const LoginForm = () => {
           </div>
           <FormError message={error} />
           <Button type="submit" className="w-full" disabled={isPending}>
-            Login
+            {isPending ? <Spinner /> : "Login"}
           </Button>
         </form>
       </Form>
