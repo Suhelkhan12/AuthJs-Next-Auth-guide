@@ -1,13 +1,25 @@
 import bcrypt from "bcryptjs";
 import type { NextAuthConfig } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
-
+import Github from "next-auth/providers/github";
+import Google from "next-auth/providers/google";
 import { LoginSchema } from "./schemas/indes";
 import { getUserByEmail } from "./data/user";
 
 // this is just an object not an auth.js instance
 export default {
   providers: [
+    /**
+     * for OAuth providers we will give them some secret keys.
+     */
+    Google({
+      clientId: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+    }),
+    Github({
+      clientId: process.env.GITHUB_CLIENT_ID,
+      clientSecret: process.env.GITHUB_CLIENT_SECRET,
+    }),
     Credentials({
       // this authorize will have login credectials passed to it.
       async authorize(credentials) {

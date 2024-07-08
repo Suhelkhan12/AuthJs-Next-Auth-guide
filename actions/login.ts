@@ -19,6 +19,7 @@ export const login = async (values: LoginSchemaType) => {
   const { email, password } = validatedFields.data;
 
   try {
+    // I can signin using 3part apps here too just had to change credentials to that party.
     await signIn("credentials", {
       email,
       password,

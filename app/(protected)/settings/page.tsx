@@ -14,7 +14,9 @@ const page = async () => {
         action={async () => {
           "use server";
           await wait(1500);
-          await signOut();
+          await signOut({
+            redirectTo: "/auth/login",
+          });
         }}
       >
         <Button type="submit">Sign out</Button>
