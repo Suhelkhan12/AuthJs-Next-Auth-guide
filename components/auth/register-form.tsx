@@ -49,6 +49,10 @@ export const RegisterForm = () => {
     // here passing login server action to startTransition in a callback
     startTransition(async () => {
       const response = await register(values);
+      /**
+       * this redirect state is done just to show some redirecting state to user
+       */
+
       setSuccess(response.success);
       setError(response.error);
 
@@ -123,7 +127,7 @@ export const RegisterForm = () => {
           <FormError message={error} />
           <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
-            {isPending ? <Spinner /> : "Create an account"}
+            {isPending ? <Spinner /> : "Create an account"}.
           </Button>
         </form>
       </Form>

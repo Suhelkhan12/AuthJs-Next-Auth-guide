@@ -25,6 +25,8 @@ export const login = async (values: LoginSchemaType) => {
       password,
       redirectTo: DEFAULT_LOGIN_REDIRECT,
     });
+    // TODO
+    // return { success: "Email found. Logging in." };
   } catch (err) {
     if (err instanceof AuthError) {
       switch (err.type) {
@@ -32,7 +34,7 @@ export const login = async (values: LoginSchemaType) => {
           return { error: "Invalid credentials." };
         }
         default:
-          return { error: "Something went wrong." };
+          return { error: "Invalid credentials." };
       }
     }
 

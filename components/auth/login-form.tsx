@@ -1,5 +1,7 @@
 "use client";
 import { useState, useTransition } from "react";
+import { useSearchParams } from "next/navigation";
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -22,9 +24,15 @@ import { login } from "@/actions/login";
 import Spinner from "../icons/Spinner";
 
 export const LoginForm = () => {
+  const searchParams = useSearchParams();
+  const urlError =
+    searchParams.get("error") === "OAuthAccountNotLinked"
+      ? "Email already in use."
+      : "";
   // use transition hooks
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
+  // const [success, setSuccess] = useState<string | undefined>("");
 
   // defining shadcn form
   const form = useForm<LoginSchemaType>({
@@ -41,6 +49,8 @@ export const LoginForm = () => {
     // here passing login server action to startTransition in a callback
     startTransition(async () => {
       const response = await login(values);
+      // TODO
+      // setSuccess(response?.success);
       setError(response?.error);
       form.reset();
     });
@@ -92,7 +102,9 @@ export const LoginForm = () => {
               )}
             />
           </div>
-          <FormError message={error} />
+          <FormError message={error || urlError} />
+          {/* TODO */}
+          {/* <FormSuccess message={success} /> */}
           <Button type="submit" className="w-full" disabled={isPending}>
             {isPending ? <Spinner /> : "Login"}
           </Button>

@@ -1,10 +1,9 @@
 import NextAuth from "next-auth";
+import { prisma } from "./lib/db";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import { getUserById } from "./data/user";
 import authConfig from "@/auth.config";
-
-import { prisma } from "./lib/db";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
@@ -37,6 +36,21 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
       }
 
       return session;
+    },
+  },
+  /**
+   * this pages objec is used to add error page , signin page and other pages read docs
+   */
+  pages: {
+    signIn: "/auth/login",
+    error: "/auth/error",
+  },
+  events: {
+    async linkAccount({ user }) {
+      await prisma.user.update({
+        where: { id: user.id },
+        data: { emailVerified: new Date() },
+      });
     },
   },
   adapter: PrismaAdapter(prisma),
