@@ -6,6 +6,8 @@ import { prisma } from "@/lib/db";
 import bcrypt from "bcryptjs";
 
 import { getUserByEmail } from "@/data/user";
+import { generateVerificatonToken } from "@/lib/tokens";
+import { sendVerificationEmail } from "@/lib/mail";
 
 export const register = async (values: RegisterSchemaType) => {
   const isValidatedFields = RegisterSchema.safeParse(values);
@@ -35,9 +37,13 @@ export const register = async (values: RegisterSchemaType) => {
     },
   });
 
-  // TODO: send verification token email
+  // sending verification token
+  const verficationToken = await generateVerificatonToken(email);
+
+  // sending verification email
+  await sendVerificationEmail(verficationToken.email, verficationToken.token);
 
   return {
-    success: "You are registered successfully",
+    success: "Confirmation email has been sent.",
   };
 };

@@ -20,6 +20,7 @@ import { Input } from "@/components/ui/input";
 import { LoginSchema, LoginSchemaType } from "@/schemas/indes";
 
 import { FormError } from "../form-error";
+import { FormSuccess } from "../form-success";
 import { login } from "@/actions/login";
 import Spinner from "../icons/Spinner";
 
@@ -32,7 +33,7 @@ export const LoginForm = () => {
   // use transition hooks
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | undefined>("");
-  // const [success, setSuccess] = useState<string | undefined>("");
+  const [success, setSuccess] = useState<string | undefined>("");
 
   // defining shadcn form
   const form = useForm<LoginSchemaType>({
@@ -49,8 +50,7 @@ export const LoginForm = () => {
     // here passing login server action to startTransition in a callback
     startTransition(async () => {
       const response = await login(values);
-      // TODO
-      // setSuccess(response?.success);
+      setSuccess(response?.success);
       setError(response?.error);
       form.reset();
     });
@@ -103,8 +103,7 @@ export const LoginForm = () => {
             />
           </div>
           <FormError message={error || urlError} />
-          {/* TODO */}
-          {/* <FormSuccess message={success} /> */}
+          <FormSuccess message={success} />
           <Button type="submit" className="w-full" disabled={isPending}>
             {isPending ? <Spinner /> : "Login"}
           </Button>

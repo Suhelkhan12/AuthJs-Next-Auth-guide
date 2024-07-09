@@ -9,6 +9,18 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     // there are many callbacks please read old documentation for better understanding
 
+    async signIn({ user, account }) {
+      // allow Oauth without email verification
+      if (account?.provider !== "credentials") return true;
+
+      const existingUser = await getUserById(user.id as string);
+
+      // if user's emails is not verified they will not be signedin
+      if (!existingUser?.emailVerified) return false;
+
+      // TODO add 2FA check
+      return true;
+    },
     /**
      *
      * agar jwt me token me kuch bhi update kra to vo session me automatically phoch jayga hum custom fields bhi add kr skte hai agar hum chahe to krna
