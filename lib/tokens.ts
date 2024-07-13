@@ -1,4 +1,5 @@
 import { getVerificationTokenByEmail } from "@/data/verification-token";
+import { getPasswordResetByEmail } from "@/data/password-reset-token";
 import { prisma } from "@/lib/db";
 
 import { v4 as uuidV4 } from "uuid";
@@ -28,4 +29,32 @@ export const generateVerificatonToken = async (email: string) => {
   });
 
   return verficationToken;
+};
+
+// to generate a token for reseting the password
+export const generatePasswordResetToken = async (email: string) => {
+  const token = uuidV4();
+
+  // token will exprire in 1 hour this in millisecond
+  const expires = new Date(new Date().getTime() + 3600 * 1000);
+
+  const existingToken = await getPasswordResetByEmail(email);
+
+  if (existingToken) {
+    await prisma.resetPassword.delete({
+      where: {
+        id: existingToken.id,
+      },
+    });
+  }
+
+  const passwordResetToken = await prisma.resetPassword.create({
+    data: {
+      email,
+      token,
+      expires,
+    },
+  });
+
+  return passwordResetToken;
 };

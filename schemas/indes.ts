@@ -28,3 +28,19 @@ export const RegisterSchema = z.object({
   }),
 });
 export type RegisterSchemaType = z.infer<typeof RegisterSchema>;
+
+// RESET  SCHEMA
+export const ResetSchema = z.object({
+  email: z.string().email({
+    message: "Email is required.",
+  }),
+});
+export type ResetSchemaType = z.infer<typeof ResetSchema>;
+
+// RESET PASSWORD SCHEMA SCHEMA
+export const NewPasswordSchema = z.object({
+  password: z.string().min(8, {
+    message: "Password must contain min 8 characters.",
+  }),
+});
+export type NewPasswordSchemaType = z.infer<typeof NewPasswordSchema>;
