@@ -2,7 +2,7 @@
  * Routes which are accessible to public. They do not require authentication. It is an array.
  * @type {string[]}
  */
-export const publicRuoutes = ["/"];
+export const publicRuoutes = ["/", "/auth/new-verification"];
 
 /**
  * Routes which are used for authentiction. They will redirect user to /settings. It is also an array.

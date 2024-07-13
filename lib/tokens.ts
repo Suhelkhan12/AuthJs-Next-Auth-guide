@@ -5,8 +5,8 @@ import { v4 as uuidV4 } from "uuid";
 // uuid package hmara unique token dega hume harbar
 export const generateVerificatonToken = async (email: string) => {
   const token = uuidV4();
-  // token will exprire in 1 hour this i millisecond
-  const expires = new Date(new Date().getTime() + 3600 + 1000);
+  // token will exprire in 1 hour this in millisecond
+  const expires = new Date(new Date().getTime() + 3600 * 1000);
 
   // here we are checking that if the token which is generate by uuid is already sent to db if it is sent then find that token and delete it. taki bs unique token hi aaye apne db me.
   const existingToken = await getVerificationTokenByEmail(email);

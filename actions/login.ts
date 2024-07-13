@@ -33,7 +33,7 @@ export const login = async (values: LoginSchemaType) => {
   if (existingUser && !existingUser.emailVerified) {
     const verficationToken = await generateVerificatonToken(existingUser.email);
 
-    await sendVerificationEmail(verficationToken.email, verficationToken.email);
+    await sendVerificationEmail(verficationToken.email, verficationToken.token);
 
     // here we will not even attempt to signin
     return { success: "Please confirm your email." };
