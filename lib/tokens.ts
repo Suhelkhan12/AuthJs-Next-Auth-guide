@@ -1,8 +1,37 @@
+import crypto from "crypto ";
+import { v4 as uuidV4 } from "uuid";
+
 import { getVerificationTokenByEmail } from "@/data/verification-token";
 import { getPasswordResetByEmail } from "@/data/password-reset-token";
 import { prisma } from "@/lib/db";
 
-import { v4 as uuidV4 } from "uuid";
+import { getTwoFactorTokenByEmail } from "@/data/twofactor-token";
+
+// generating two factor token
+export const generateTwoFactorToken = async (email: string) => {
+  const token = crypto.randomInt(100_000, 1_000_000).toString();
+  const expires = new Date(new Date().getTime() + 3600 * 1000);
+
+  const existingToken = await getTwoFactorTokenByEmail(email);
+
+  if (existingToken) {
+    await prisma.twoFactorToken.delete({
+      where: {
+        id: existingToken.id,
+      },
+    });
+  }
+
+  const twofactorToken = await prisma.twoFactorToken.create({
+    data: {
+      email,
+      token,
+      expires,
+    },
+  });
+  return twofactorToken;
+};
+
 // uuid package hmara unique token dega hume harbar
 export const generateVerificatonToken = async (email: string) => {
   const token = uuidV4();
