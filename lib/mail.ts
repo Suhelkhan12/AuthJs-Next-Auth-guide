@@ -4,7 +4,7 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 // for sending verfication email to user
 export const sendVerificationEmail = async (email: string, token: string) => {
-  const confirmLink = `http://localhost:3000/auth/new-verification?token=${token}`;
+  const confirmLink = `http://localhost:4000/auth/new-verification?token=${token}`;
 
   await resend.emails.send({
     from: "onboarding@resend.dev",
@@ -16,7 +16,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
 // for sending reset password verfication to user
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-  const resetLink = `http://localhost:3000/auth/new-password?token=${token}`;
+  const resetLink = `http://localhost:4000/auth/new-password?token=${token}`;
 
   await resend.emails.send({
     from: "onboarding@resend.dev",

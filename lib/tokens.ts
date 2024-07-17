@@ -1,4 +1,4 @@
-import crypto from "crypto ";
+import crypto from "crypto";
 import { v4 as uuidV4 } from "uuid";
 
 import { getVerificationTokenByEmail } from "@/data/verification-token";
