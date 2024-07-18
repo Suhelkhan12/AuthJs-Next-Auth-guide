@@ -1,28 +1,22 @@
-import { wait } from "@/actions/wait";
-import { auth, signOut } from "@/auth";
+"use client";
+import { logOut } from "@/actions/logout";
 import { Button } from "@/components/ui/button";
+import { useCurrentUser } from "@/hooks/useCurrentUser";
 
-const page = async () => {
-  const session = await auth();
+const Page = () => {
+  const user = useCurrentUser();
+  console.log(user);
+  const handleSignOut = () => {
+    logOut();
+  };
 
-  if (!session) return <div>No session found</div>;
   return (
-    <div>
-      Settings page
-      <pre>{JSON.stringify(session)}</pre>
-      <form
-        action={async () => {
-          "use server";
-          await wait(1500);
-          await signOut({
-            redirectTo: "/auth/login",
-          });
-        }}
-      >
-        <Button type="submit">Sign out</Button>
-      </form>
+    <div className="rounded-xl bg-white p-10">
+      <Button type="submit" onClick={handleSignOut}>
+        Sign out
+      </Button>
     </div>
   );
 };
 
-export default page;
+export default Page;

@@ -9,7 +9,6 @@ import { getTwoFactorConfirmationByUserId } from "./data/twofactor-confirmation"
 export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
     // there are many callbacks please read old documentation for better understanding
-
     async signIn({ user, account }) {
       // allow Oauth without email verification
       if (account?.provider !== "credentials") return true;
