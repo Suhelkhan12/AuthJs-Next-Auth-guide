@@ -5,6 +5,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 
 import { getUserById } from "./data/user";
 import { getTwoFactorConfirmationByUserId } from "./data/twofactor-confirmation";
+import { getAccountByUserId } from "./data/account";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   callbacks: {
@@ -47,6 +48,13 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (!existingUser) return token;
 
+      const existingAccount = await getAccountByUserId(existingUser.id);
+
+      token.isOAuth = !!existingAccount;
+      // this is being done here because I am updating these things from settings and to show it in ui
+      token.name = existingUser.name;
+      token.email = existingUser.email;
+
       token.role = existingUser.role;
 
       // for extending 2FA
@@ -64,6 +72,12 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
 
       if (session.user) {
         session.user.isTwoFactorEnabled = token.isTwoFactorEnabled as boolean;
+      }
+
+      if (session.user) {
+        session.user.name = token.name;
+        session.user.email = token.email as string;
+        session.user.isOAuth = token.isOAuth as boolean;
       }
 
       return session;
