@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 // props
 interface loginButtonProps {
   children: React.ReactNode;
-  mode?: "model" | "redirect";
+  mode?: "modal" | "redirect";
   asChild?: boolean;
 }
 
@@ -20,11 +20,6 @@ export const LoginButton = ({
   const onClick = () => {
     router.push("/auth/login");
   };
-
-  // for mode === "model"
-  if (mode === "model") {
-    return <span>TODO:implement modal</span>;
-  }
 
   return (
     <span className=" cursor-pointer" onClick={onClick}>

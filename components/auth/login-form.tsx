@@ -32,6 +32,7 @@ export const LoginForm = () => {
     searchParams.get("error") === "OAuthAccountNotLinked"
       ? "Email already in use."
       : "";
+  const callbackUrl = searchParams.get("callbackUrl");
   // use transition hooks
   const [isPending, startTransition] = useTransition();
   const [showTwoFactor, setShowTwoFActor] = useState<boolean>(false);
@@ -53,7 +54,7 @@ export const LoginForm = () => {
     setError("");
     // here passing login server action to startTransition in a callback
     startTransition(async () => {
-      const response = await login(values);
+      const response = await login(values, callbackUrl);
       if (response?.success) {
         setSuccess(response.success);
         form.reset();

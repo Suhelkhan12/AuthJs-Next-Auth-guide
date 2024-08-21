@@ -12,7 +12,10 @@ import { sendVerificationEmail, sendTwoFactorAuthEmail } from "@/lib/mail";
 import { prisma } from "@/lib/db";
 import { getTwoFactorConfirmationByUserId } from "@/data/twofactor-confirmation";
 
-export const login = async (values: LoginSchemaType) => {
+export const login = async (
+  values: LoginSchemaType,
+  callbackUrl?: string | null
+) => {
   /**
    * this is where we are doing server side validations. Because remember client side validations can always be bypassed.
    */
@@ -101,7 +104,7 @@ export const login = async (values: LoginSchemaType) => {
     await signIn("credentials", {
       email,
       password,
-      redirectTo: DEFAULT_LOGIN_REDIRECT,
+      redirectTo: callbackUrl || DEFAULT_LOGIN_REDIRECT,
     });
     // TODO
     // return { success: "Email found. Logging in." };
