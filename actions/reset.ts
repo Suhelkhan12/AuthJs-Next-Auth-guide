@@ -11,7 +11,7 @@ export const reset = async (values: ResetSchemaType) => {
   if (!validatedFields) return { error: "Invalid email!" };
 
   console.log({ validatedFields });
-  const { email } = validatedFields.data;
+  const { email } = validatedFields.data!;
 
   const existingUser = await getUserByEmail(email);
 

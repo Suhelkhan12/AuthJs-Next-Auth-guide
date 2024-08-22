@@ -16,7 +16,7 @@ export const newPassword = async (
   // server side field validations
   const validatedFields = NewPasswordSchema.safeParse(values);
   if (!validatedFields) return { error: "Invalid fields!" };
-  const { password } = validatedFields.data;
+  const { password } = validatedFields.data!;
 
   // db se password resset ka token nikala
   const existingToken = await getPasswordResetByToken(token);

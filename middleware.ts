@@ -30,14 +30,14 @@ export default auth((req) => {
    *  2) If user is accession api auth route we will not to anything
    */
 
-  if (isApiAuthRoute) return null;
+  if (isApiAuthRoute) return undefined;
 
   if (isAuthRoute) {
     if (isLoggedIn) {
       // we passed this nextUrl as second argument because it will create an absolute route here.
       return Response.redirect(new URL(DEFAULT_LOGIN_REDIRECT, nextUrl));
     }
-    return null;
+    return undefined;
   }
 
   if (!isLoggedIn && !isPublicRoute) {
@@ -51,7 +51,7 @@ export default auth((req) => {
     );
   }
 
-  return null;
+  return undefined;
 });
 
 // everything inside this config object will not be used to make public or protected routes. It will simply be used to invoke the middle ware function.
